@@ -1,0 +1,47 @@
+---
+version: '2'
+name: 'Magento'
+canonical: 'stack-magento'
+description: 'This stack will deploy a Magento on X Amazon EC2 instances behind an ELB load balancer, using RDS database and ElasticCache.'
+keywords:
+  - 'magento'
+author: 'Cycloid'
+image: 'https://raw.githubusercontent.com/cycloid-community-catalog/stack-magento/master/icon.png'
+technologies:
+  - technology: Debian
+    version: 9.x
+  - technology: Nginx
+    version: 1.1x
+  - technology: Php
+    version: 7.2
+  - technology: Redis
+    version: 3.4
+  - technology: Magento
+    version: 2.x
+config:
+  # define the default pipeline here
+  default:
+    name: 'my default use-case'
+    description: 'this is the default pipeline of the stack'
+    cloud_provider: 'aws'
+
+    # Pipeline and variable configuration for default usecase
+    pipeline:
+      pipeline:
+        path: 'pipeline/pipeline.yml'
+      variables:
+        path: 'pipeline/variables.sample.yml'
+        destination: '($ project $)/pipeline/($ environment $)/variables.yml'
+
+    # Configuration of ansible for provisionning for default usecase
+    ansible:
+      magento:
+        path: 'ansible/environments/front.yml.sample'
+        destination: '($ project $)/ansible/($ environment $)-front.yml'
+
+    # Configuration of terraform to setup the infrastructure for default usecase
+    terraform:
+      magento:
+        path: 'terraform/magento.tf.sample'
+        destination: '($ project $)/terraform/($ environment $)/magento.tf'
+
